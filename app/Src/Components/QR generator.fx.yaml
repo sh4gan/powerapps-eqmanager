@@ -1,0 +1,75 @@
+"'QR generator' As CanvasComponent":
+    BackgroundColor: ="255-255-255"
+    Color: ="0-0-0"
+    Fill: =RGBA(0, 0, 0, 0)
+    Height: =1136
+    QRImage: =Image1_1
+    Width: =640
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    Generate As button:
+        BorderColor: =ColorFade(Generate.Fill, -15%)
+        FocusedBorderColor: =Generate.BorderColor
+        Height: =70
+        HoverBorderColor: =ColorFade(Generate.BorderColor, 20%)
+        OnSelect: =Set(QRdata, TextInput1.Text)
+        PressedBorderColor: =Generate.Fill
+        PressedColor: =Generate.Fill
+        PressedFill: =Generate.Color
+        Size: =24
+        Text: ="Generate QR"
+        Width: =280
+        X: =183
+        Y: =1023
+        ZIndex: =1
+
+    Image1_1 As image:
+        FocusedBorderColor: =Image1_1.BorderColor
+        Height: =Image1_1.Width
+        HoverBorderColor: =ColorFade(Image1_1.BorderColor, 20%)
+        HoverFill: =ColorFade(Image1_1.Fill, 20%)
+        Image: |-
+            =If(QRdata = "" || IsBlank(QRdata) ,"https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=Example" ,"https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" & QRdata & "&color=" & 'QR generator'.Color & "&bgcolor=" & 'QR generator'.BackgroundColor)  
+        PressedBorderColor: =ColorFade(Image1_1.BorderColor, -20%)
+        PressedFill: =ColorFade(Image1_1.Fill, -20%)
+        Width: =Parent.Width * 60%
+        X: =Parent.Width * 20%
+        Y: =Parent.Height * 5%
+        ZIndex: =2
+
+    TextInput1 As text:
+        Default: =""
+        FocusedBorderColor: =TextInput1.BorderColor
+        Height: =Parent.Height * 40%
+        HintText: ="QR text to encode"
+        Mode: =TextMode.MultiLine
+        PressedBorderColor: =TextInput1.HoverBorderColor
+        PressedColor: =TextInput1.Color
+        PressedFill: =TextInput1.Fill
+        Size: =21
+        Width: =Parent.Width * 90%
+        X: =Parent.Width/2 - TextInput1.Width/2
+        Y: =532
+        ZIndex: =3
+
+    Label1 As label:
+        Align: =Center
+        Color: =RGBA(255, 0, 0, 1)
+        FocusedBorderColor: =Label1.BorderColor
+        FontWeight: =Bold
+        Height: =140
+        HoverBorderColor: =Label1.BorderColor
+        HoverColor: =Label1.Color
+        HoverFill: =Label1.Fill
+        PressedBorderColor: =Label1.BorderColor
+        PressedColor: =Label1.Color
+        PressedFill: =Label1.Fill
+        Size: =60
+        Text: ="Example"
+        Visible: =QRdata = "" || IsBlank(QRdata)
+        Width: =Parent.Width
+        Y: =Image1_1.Y + Image1_1.Height/2 - Label1.Height/2
+        ZIndex: =4
+

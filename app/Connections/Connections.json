@@ -1,0 +1,31 @@
+{
+  "a6505c94-8b7c-4dc7-94d8-0a0c02c33de0": {
+    "connectionParameters": {
+      "sku": "Free"
+    },
+    "connectionRef": {
+      "displayName": "SharePoint",
+      "iconUri": "https://connectoricons-prod.azureedge.net/releases/v1.0.1578/1.0.1578.2813/sharepointonline/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_sharepointonline"
+    },
+    "datasets": {
+      "https://cevalogisticsoffice365.sharepoint.com/sites/EuropeCorby02": {
+        "dataSources": {
+          "Equipment": {
+            "tableName": "e1eaaed8-0bad-4086-81f4-1cadda8c7518"
+          },
+          "Equipment - status record_1": {
+            "tableName": "eb8e6df6-e044-4d4b-a7c6-a2e9dd17b1b5"
+          }
+        }
+      }
+    },
+    "dataSources": [
+      "Equipment",
+      "Equipment - status record_1"
+    ],
+    "dependencies": {},
+    "dependents": [],
+    "id": "a6505c94-8b7c-4dc7-94d8-0a0c02c33de0"
+  }
+}

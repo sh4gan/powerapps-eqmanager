@@ -1,0 +1,358 @@
+S_VIEW As screen:
+    Fill: =RGBA(5, 16, 57, 1)
+    Height: =Max(App.Height, App.DesignHeight)
+    OnVisible: |
+        =ClearCollect(
+            ScanItem,
+            First(
+                Filter(
+                    Equipment,
+                    'Serial number' = SERIALNUMBER
+                )
+            )
+        );
+    Width: =Max(App.Width, App.DesignWidth)
+
+    C_VIEW As groupContainer.verticalAutoLayoutContainer:
+        Height: =Parent.Height
+        LayoutAlignItems: =LayoutAlignItems.Stretch
+        LayoutDirection: =LayoutDirection.Vertical
+        LayoutGap: =10
+        LayoutMode: =LayoutMode.Auto
+        LayoutOverflowY: =LayoutOverflow.Scroll
+        Width: =Parent.Width
+        ZIndex: =7
+
+        C_VIEW_TITLE As groupContainer.verticalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =RGBA(229, 36, 33, 1)
+            FillPortions: =0
+            Height: =140
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutDirection: =LayoutDirection.Vertical
+            LayoutMinHeight: =135
+            LayoutMinWidth: =135
+            LayoutMode: =LayoutMode.Auto
+            Width: =Parent.Width
+            ZIndex: =1
+
+            P_SVIEW_TITLE As image:
+                AlignInContainer: =AlignInContainer.Start
+                DisplayMode: =DisplayMode.View
+                Height: =135
+                Image: =LogoWhite640
+                ImagePosition: =ImagePosition.Center
+                LayoutMinHeight: =320
+                LayoutMinWidth: =320
+                OnSelect: =Navigate(S_MENU, ScreenTransition.Fade)
+                Width: =640
+                ZIndex: =2
+
+        C_VIEW_MAIN As groupContainer.horizontalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            FillPortions: =3
+            Height: =225
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutMinHeight: =112
+            LayoutMinWidth: =250
+            LayoutMode: =LayoutMode.Auto
+            PaddingLeft: =10
+            PaddingRight: =10
+            PaddingTop: =10
+            ZIndex: =5
+
+            C_VIEW_ROWS As groupContainer.verticalAutoLayoutContainer:
+                AlignInContainer: =AlignInContainer.SetByContainer
+                Height: =225
+                LayoutDirection: =LayoutDirection.Vertical
+                LayoutMinHeight: =112
+                LayoutMinWidth: =250
+                LayoutMode: =LayoutMode.Auto
+                LayoutWrap: =true
+                ZIndex: =1
+
+                L_VIEW_T_OWNER As label:
+                    AutoHeight: =true
+                    Color: =RGBA(255, 255, 255, 1)
+                    Font: =Font.'Segoe UI'
+                    Height: =70
+                    LayoutMinHeight: =70
+                    LayoutMinWidth: =560
+                    Size: =18
+                    Text: |-
+                        ="Company:"
+                    Width: =Parent.Width
+                    ZIndex: =1
+
+                L_VIEW_OWNER As label:
+                    AutoHeight: =true
+                    Color: =RGBA(255, 255, 255, 1)
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Semibold
+                    Height: =70
+                    LayoutMinHeight: =70
+                    LayoutMinWidth: =560
+                    PaddingLeft: =15
+                    Size: =21
+                    Text: =First(ScanItem.Title).Title
+                    Width: =Parent.Width
+                    ZIndex: =2
+
+                L_VIEW_T_MANUFACTURE As label:
+                    AutoHeight: =true
+                    Color: =RGBA(255, 255, 255, 1)
+                    Font: =Font.'Segoe UI'
+                    Height: =70
+                    LayoutMinHeight: =70
+                    LayoutMinWidth: =560
+                    Size: =18
+                    Text: |-
+                        ="Manufacture:"
+                    Width: =Parent.Width
+                    ZIndex: =3
+
+                L_VIEW_MANUFACTURE As label:
+                    AutoHeight: =true
+                    Color: =RGBA(255, 255, 255, 1)
+                    FontWeight: =FontWeight.Semibold
+                    Height: =70
+                    LayoutMinHeight: =70
+                    LayoutMinWidth: =560
+                    PaddingLeft: =15
+                    Size: =21
+                    Text: =First(ScanItem.Manufacturer).Manufacturer.Value
+                    Width: =Parent.Width
+                    ZIndex: =4
+
+                L_VIEW_T_MODEL As label:
+                    AutoHeight: =true
+                    Color: =RGBA(255, 255, 255, 1)
+                    Font: =Font.'Segoe UI'
+                    Height: =70
+                    LayoutMinHeight: =70
+                    LayoutMinWidth: =560
+                    Size: =18
+                    Text: |-
+                        ="Model:"
+                    Width: =Parent.Width
+                    ZIndex: =5
+
+                L_VIEW_MODEL As label:
+                    AutoHeight: =true
+                    Color: =RGBA(255, 255, 255, 1)
+                    FontWeight: =FontWeight.Semibold
+                    Height: =70
+                    LayoutMinHeight: =70
+                    LayoutMinWidth: =560
+                    PaddingLeft: =15
+                    Size: =21
+                    Text: =First(ScanItem.Model).Model
+                    Width: =Parent.Width
+                    ZIndex: =6
+
+                L_VIEW_T_SERIAL_NUMBER As label:
+                    AutoHeight: =true
+                    Color: =RGBA(255, 255, 255, 1)
+                    Font: =Font.'Segoe UI'
+                    Height: =70
+                    LayoutMinHeight: =70
+                    LayoutMinWidth: =560
+                    Size: =18
+                    Text: |-
+                        ="Serial Number:"
+                    Width: =Parent.Width
+                    ZIndex: =7
+
+                L_VIEW_SERIAL_NUMBER As label:
+                    AutoHeight: =true
+                    Color: =RGBA(255, 255, 255, 1)
+                    FontWeight: =FontWeight.Semibold
+                    Height: =70
+                    LayoutMinHeight: =70
+                    LayoutMinWidth: =560
+                    PaddingBottom: =15
+                    PaddingLeft: =15
+                    Size: =21
+                    Text: =First(ScanItem.'Serial number').'Serial number'
+                    Width: =Parent.Width
+                    ZIndex: =8
+
+                C_QRCODE As groupContainer.horizontalAutoLayoutContainer:
+                    AlignInContainer: =AlignInContainer.Start
+                    BorderStyle: =BorderStyle.Dashed
+                    BorderThickness: =2
+                    Fill: =RGBA(255, 255, 255, 1)
+                    FillPortions: =0
+                    Height: =I_QRCODE.Height+C_QRCODE.PaddingTop+C_QRCODE.PaddingBottom
+                    LayoutMinHeight: =I_QRCODE.Height+C_QRCODE.PaddingTop+C_QRCODE.PaddingBottom
+                    LayoutMinWidth: =250
+                    LayoutMode: =LayoutMode.Auto
+                    PaddingBottom: =15
+                    PaddingLeft: =15
+                    PaddingRight: =15
+                    PaddingTop: =15
+                    Width: =I_QRCODE.Width+C_QRCODE.PaddingLeft+C_QRCODE.PaddingRight
+                    ZIndex: =10
+
+                    I_QRCODE As image:
+                        BorderColor: =RGBA(255, 255, 255, 1)
+                        DisplayMode: =DisplayMode.View
+                        Height: =I_QRCODE.Width
+                        Image: |-
+                            =Concatenate("https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=",Trim(L_VIEW_SERIAL_NUMBER.Text))
+                        LayoutMinHeight: =320
+                        LayoutMinWidth: =320
+                        OnSelect: =
+                        Width: =150
+                        X: =Self.Width - 5 - I_QRCODE.Width
+                        Y: =30
+                        ZIndex: =1
+
+                C_QRCODE_1 As groupContainer.horizontalAutoLayoutContainer:
+                    AlignInContainer: =AlignInContainer.Start
+                    BorderStyle: =BorderStyle.Dashed
+                    BorderThickness: =2
+                    Fill: =RGBA(255, 255, 255, 1)
+                    FillPortions: =0
+                    Height: =L_VIEW_SERIAL_NUMBER_1.Height+C_QRCODE_1.PaddingTop+C_QRCODE_1.PaddingBottom
+                    LayoutMinHeight: =L_VIEW_SERIAL_NUMBER_1.Height+C_QRCODE_1.PaddingTop+C_QRCODE_1.PaddingBottom
+                    LayoutMinWidth: =250
+                    LayoutMode: =LayoutMode.Auto
+                    PaddingBottom: =15
+                    PaddingLeft: =15
+                    PaddingRight: =15
+                    PaddingTop: =15
+                    Width: =C_QRCODE.Width
+                    ZIndex: =11
+
+                    L_VIEW_SERIAL_NUMBER_1 As label:
+                        Align: =Align.Center
+                        AlignInContainer: =AlignInContainer.Center
+                        AutoHeight: =true
+                        DisplayMode: =DisplayMode.View
+                        FillPortions: =1
+                        Font: =Font.'Open Sans Condensed'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =11
+                        LayoutMinHeight: =10
+                        LayoutMinWidth: =11
+                        Size: =16
+                        Text: =First(ScanItem.'Serial number').'Serial number'
+                        Width: =11
+                        ZIndex: =2
+
+            P_VIEW_PRODUCT_PHOTO As image:
+                AlignInContainer: =AlignInContainer.Stretch
+                FillPortions: =2
+                Height: =320
+                Image: =First(ScanItem.Photo).Photo
+                LayoutMinHeight: =150
+                LayoutMinWidth: =320
+                Width: =Parent.Width
+                ZIndex: =3
+
+        L_VIEW_CUROWNER As label:
+            AutoHeight: =true
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Semibold
+            Height: =70
+            LayoutMinHeight: =70
+            LayoutMinWidth: =560
+            PaddingLeft: =15
+            Size: =21
+            Text: |-
+                =Concatenate("Current Owner: ",First(ScanItem.'Current owner').'Current owner'.DisplayName)
+            Width: =560
+            ZIndex: =6
+
+        L_VIEW_STATUS As label:
+            AutoHeight: =true
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Semibold
+            Height: =70
+            LayoutMinHeight: =70
+            LayoutMinWidth: =560
+            PaddingLeft: =15
+            Size: =21
+            Text: |-
+                =Concatenate("Status: ",First(
+                    SortByColumns(
+                        Filter(
+                            'Equipment - status record_1',
+                            Title = SERIALNUMBER
+                        ),
+                        "Modified",
+                        Descending
+                    )
+                ).Status.Value)
+            Width: =560
+            ZIndex: =7
+
+        L_VIEW_REPAIR_COUNT As label:
+            AutoHeight: =true
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Semibold
+            Height: =70
+            LayoutMinHeight: =70
+            LayoutMinWidth: =560
+            PaddingLeft: =15
+            Size: =21
+            Text: |-
+                =Concatenate("Repairs: ",Count(Filter(
+                            'Equipment - status record_1',
+                            Title = SERIALNUMBER, Status.Value="In Repair"
+                        ).ID))
+            Width: =560
+            ZIndex: =8
+
+        C_VIEW_FOOT As groupContainer.horizontalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            FillPortions: =0
+            Height: =100
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutJustifyContent: =LayoutJustifyContent.Center
+            LayoutMinHeight: =70
+            LayoutMinWidth: =250
+            LayoutMode: =LayoutMode.Auto
+            ZIndex: =9
+
+            I_VIEW_BACK As icon.BackArrow:
+                Color: =RGBA(255, 255, 255, 1)
+                FillPortions: =1
+                Icon: =Icon.BackArrow
+                LayoutMinWidth: =100
+                OnSelect: =Back(Fade)
+                PaddingLeft: =10
+                PaddingRight: =10
+                ZIndex: =2
+
+            R_VIEW_SPACE_1 As rectangle:
+                BorderStyle: =BorderStyle.None
+                Fill: =RGBA(0, 0, 0, 0)
+                LayoutMinWidth: =1
+                Width: =10
+                ZIndex: =3
+
+            B_VIEW_UPDATE As button:
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =0
+                Fill: =RGBA(54, 176, 75, 1)
+                FillPortions: =6
+                Font: =Font.'Segoe UI'
+                Height: =70
+                LayoutMinHeight: =70
+                LayoutMinWidth: =300
+                OnSelect: |-
+                    =Navigate(S_UPDATE,ScreenTransition.Fade,{SERIALNUMBER:First(ScanItem).'Serial number'})
+                Size: =32
+                Text: ="UPDATE"
+                Width: =280
+                ZIndex: =6
+
+            R_VIEW_SPACE_2 As rectangle:
+                BorderStyle: =BorderStyle.None
+                Fill: =RGBA(0, 0, 0, 0)
+                LayoutMinWidth: =1
+                Width: =10
+                ZIndex: =7
+

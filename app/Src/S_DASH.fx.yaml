@@ -1,0 +1,188 @@
+S_DASH As screen:
+    Fill: =RGBA(5, 16, 57, 1)
+    OnVisible: |-
+        =ClearCollect(
+            DropDownType,
+            Distinct(
+                Equipment,
+                'Asset type'.Value
+            ),
+            {Result: "*All"}
+        )
+
+    C_DASH_FOOT As groupContainer.horizontalAutoLayoutContainer:
+        Height: =100
+        LayoutAlignItems: =LayoutAlignItems.Center
+        LayoutJustifyContent: =LayoutJustifyContent.Center
+        LayoutMode: =LayoutMode.Auto
+        Width: =Parent.Width
+        Y: =Parent.Height - C_DASH_FOOT.Height
+        ZIndex: =1
+
+        I_VIEW_BACK_3 As icon.BackArrow:
+            Color: =RGBA(255, 255, 255, 1)
+            FillPortions: =1
+            Icon: =Icon.BackArrow
+            LayoutMinWidth: =100
+            OnSelect: =Back(Fade)
+            PaddingLeft: =10
+            PaddingRight: =10
+            Width: =100
+            ZIndex: =1
+
+        R_VIEW_SPACE_8 As rectangle:
+            BorderStyle: =BorderStyle.None
+            Fill: =RGBA(0, 0, 0, 0)
+            Width: =10
+            ZIndex: =2
+
+        Dropdown1 As dropdown:
+            ChevronBackground: =RGBA(229, 36, 33, 1)
+            FillPortions: =16
+            Height: =70
+            Items: =Sort(DropDownType,Result,Ascending)
+            LayoutMinHeight: =70
+            LayoutMinWidth: =250
+            Size: =21
+            Width: =575
+            ZIndex: =3
+
+        R_VIEW_SPACE_9 As rectangle:
+            BorderStyle: =BorderStyle.None
+            Fill: =RGBA(0, 0, 0, 0)
+            Width: =10
+            ZIndex: =4
+
+        Icon1 As icon.Reload:
+            BorderColor: =RGBA(255, 255, 255, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            FillPortions: =1
+            FocusedBorderThickness: =0
+            Icon: =Icon.Sync
+            LayoutMinWidth: =100
+            OnSelect: =Refresh(Equipment)
+            PaddingLeft: =10
+            PaddingRight: =10
+            Width: =100
+            ZIndex: =6
+
+        R_VIEW_SPACE_10 As rectangle:
+            BorderStyle: =BorderStyle.None
+            Fill: =RGBA(0, 0, 0, 0)
+            Width: =10
+            ZIndex: =7
+
+    C_DASH_MAIN As groupContainer.verticalAutoLayoutContainer:
+        Height: =Parent.Height - C_DASH_TITLE.Height - C_DASH_FOOT.Height
+        LayoutAlignItems: =LayoutAlignItems.Stretch
+        LayoutDirection: =LayoutDirection.Vertical
+        LayoutMode: =LayoutMode.Auto
+        LayoutOverflowX: =LayoutOverflow.Scroll
+        LayoutOverflowY: =LayoutOverflow.Scroll
+        LayoutWrap: =true
+        Width: =Parent.Width
+        Y: =140
+        ZIndex: =2
+
+        CompositeColumnChart1 As group:
+            Height: =5
+            LayoutMinHeight: =5
+            LayoutMinWidth: =5
+            Width: =5
+            X: =-120
+            Y: =-260
+            ZIndex: =8
+
+            Title5 As label:
+                Align: =Align.Center
+                AlignInContainer: =AlignInContainer.Stretch
+                BorderColor: =RGBA(255, 255, 255, 1)
+                Color: =RGBA(255, 255, 255, 1)
+                FillPortions: =1
+                Font: =Font.'Segoe UI'
+                Height: =25
+                LayoutMinHeight: =70
+                LayoutMinWidth: =Parent.Width
+                Size: =18
+                Text: ="Count of Assets by Status"
+                Visible: =false
+                Width: =400
+                X: =120
+                Y: =260
+                ZIndex: =1
+
+            ColumnChart1 As barChart:
+                AlignInContainer: =AlignInContainer.Stretch
+                BorderColor: =RGBA(255, 255, 255, 1)
+                Color: =RGBA(255, 255, 255, 1)
+                DisplayMode: =DisplayMode.View
+                FillPortions: =2
+                Font: =Font.'Open Sans Condensed'
+                ItemColorSet: =
+                Items: |-
+                    =Sort(
+                        AddColumns(
+                            GroupBy(
+                                AddColumns(
+                                    If(
+                                        Dropdown1.SelectedText.Value <> "*All",
+                                        Filter(
+                                            Equipment,
+                                            'Asset type'.Value = Dropdown1.SelectedText.Value
+                                        ),
+                                        Equipment
+                                    ),
+                                    "Asset Type Value",
+                                    ThisRecord.'Asset type'.Value,
+                                    "Status Value",
+                                    ThisRecord.Status.Value,
+                                    "Type - Status",
+                                    Concatenate(
+                                        ThisRecord.'Asset type'.Value,
+                                        " - ",
+                                        ThisRecord.Status.Value
+                                    )
+                                ),
+                                "Asset Type Value",
+                                "Status Value",
+                                "Type - Status",
+                                "Assets"
+                            ),
+                            "Count",
+                            CountIf(
+                                Assets,
+                                Assets[@'Asset type'].Value = 'Asset Type Value' And Assets[@Status].Value = 'Status Value'
+                            )
+                        ),
+                        'Type - Status'
+                    )
+                ItemsGap: =1
+                LayoutMinHeight: =Parent.Height-C_DASH_TITLE.Height-C_DASH_FOOT.Height
+                LayoutMinWidth: =Parent.Width
+                PaddingLeft: =20
+                PaddingRight: =0
+                Size: =12
+                X: =120
+                XLabelAngle: =70
+                Y: =30
+                ZIndex: =2
+
+    C_DASH_TITLE As groupContainer.verticalAutoLayoutContainer:
+        BorderColor: =RGBA(229, 36, 33, 1)
+        Height: =140
+        LayoutDirection: =LayoutDirection.Vertical
+        LayoutMode: =LayoutMode.Auto
+        Width: =Parent.Width
+        ZIndex: =3
+
+        P_SCAN_VIEW_TITLE_3 As image:
+            DisplayMode: =DisplayMode.View
+            Height: =135
+            Image: =LogoWhite640
+            ImagePosition: =ImagePosition.Center
+            LayoutMinHeight: =320
+            LayoutMinWidth: =320
+            OnSelect: =Navigate(S_MENU, ScreenTransition.Fade)
+            Width: =640
+            ZIndex: =2
+

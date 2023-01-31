@@ -1,0 +1,103 @@
+"S_PRINT As screen.'printableLayout_A4Portrait_ver1.0'":
+    Height: =1123
+    ImagePosition: =ImagePosition.Center
+    Width: =794
+
+    L_PRINT As label:
+        Align: =Align.Center
+        BorderColor: =RGBA(0, 18, 107, 1)
+        BorderThickness: =1
+        Color: =RGBA(255, 255, 255, 1)
+        Fill: =RGBA(229, 36, 33, 1)
+        FontWeight: =FontWeight.Semibold
+        OnSelect: =Print()
+        Size: =12
+        TabIndex: =0
+        Text: ="Print Template AVERY L7172 (Preview Mode Only)"
+        Visible: =Not(Parent.Printing)
+        Width: =400
+        X: =350
+        Y: =5
+        ZIndex: =2
+
+    C_PRINT_MAIN As groupContainer.verticalAutoLayoutContainer:
+        Height: =1068
+        LayoutAlignItems: =LayoutAlignItems.Stretch
+        LayoutDirection: =LayoutDirection.Vertical
+        LayoutGap: =10
+        LayoutMode: =LayoutMode.Auto
+        LayoutOverflowX: =LayoutOverflow.Scroll
+        LayoutOverflowY: =LayoutOverflow.Scroll
+        PaddingLeft: =3
+        Width: =794
+        Y: =54
+        ZIndex: =3
+
+        "Gallery1_1 As gallery.'BrowseLayout_Vertical_OneImageThreeColumnVariant_ver4.0'":
+            AlignInContainer: =AlignInContainer.SetByContainer
+            Height: =
+            Items: =Filter(Equipment,'Asset type'.Value = D_VIEW_CAT.SelectedText.Value, Status.Value = D_VIEW_STAT.SelectedText.Value)
+            Layout: =Layout.Vertical
+            LayoutMinHeight: =100
+            LayoutMinWidth: =300
+            TemplatePadding: =4
+            TemplateSize: =Min(110, Self.Height - 60)
+            Width: =794
+            WrapCount: =4
+            ZIndex: =2
+
+            Label2_1 As label:
+                Align: =Align.Center
+                Height: =50
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =6
+                Text: =ThisItem.Model
+                Width: =82
+                X: =110
+                ZIndex: =3
+
+            Group1 As group:
+                Height: =5
+                Width: =5
+                X: =40
+                Y: =40
+                ZIndex: =3
+
+                Image3 As image:
+                    Image: |-
+                        =Concatenate("https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=",ThisItem.'Serial number')
+                    ImagePosition: =ImagePosition.Fill
+                    OnSelect: |-
+                        =Select(Parent);Navigate(S_VIEW,ScreenTransition.Fade,{SERIALNUMBER:Parent.Selected.'Serial number'})
+                    Tooltip: ="View item details"
+                    X: =10
+                    ZIndex: =1
+
+                Label2 As label:
+                    Align: =Align.Center
+                    Height: =50
+                    OnSelect: =Navigate(S_MENU, ScreenTransition.Fade)
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Size: =6
+                    Text: =ThisItem.'Serial number'
+                    Width: =82
+                    X: =110
+                    Y: =50
+                    ZIndex: =2
+
+    P_PRINT_TITLE As image:
+        Height: =33
+        Image: =LogoBlue640
+        ImagePosition: =ImagePosition.Fill
+        OnSelect: =Navigate(S_MENU, ScreenTransition.Fade)
+        Width: =292
+        Y: =9
+        ZIndex: =4
+

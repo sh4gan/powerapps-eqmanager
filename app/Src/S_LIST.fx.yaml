@@ -1,0 +1,267 @@
+S_LIST As screen:
+    Fill: =RGBA(5, 16, 57, 1)
+    Height: =Max(App.Height, App.DesignHeight)
+    Width: =Max(App.Width, App.DesignWidth)
+
+    C_LIST_FOOT As groupContainer.horizontalAutoLayoutContainer:
+        Height: =100
+        LayoutAlignItems: =LayoutAlignItems.Center
+        LayoutJustifyContent: =LayoutJustifyContent.Center
+        LayoutMode: =LayoutMode.Auto
+        Width: =Parent.Width
+        Y: =Parent.Height - C_LIST_FOOT.Height
+        ZIndex: =1
+
+        I_LIST_BACK As icon.BackArrow:
+            Color: =RGBA(255, 255, 255, 1)
+            FillPortions: =1
+            Icon: =Icon.BackArrow
+            LayoutMinWidth: =100
+            OnSelect: =Back(Fade)
+            PaddingLeft: =10
+            PaddingRight: =10
+            ZIndex: =1
+
+        R_LIST_SPACE_1 As rectangle:
+            BorderStyle: =BorderStyle.None
+            Fill: =RGBA(0, 0, 0, 0)
+            Width: =10
+            ZIndex: =2
+
+        BS_LIST_SCAN As barcodeScanner:
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =0
+            Fill: =RGBA(221, 79, 14, 1)
+            FillPortions: =6
+            Font: =Font.'Segoe UI'
+            Height: =70
+            LayoutMinHeight: =70
+            LayoutMinWidth: =300
+            Size: =32
+            Text: ="SCAN"
+            Width: =300
+            ZIndex: =3
+
+        R_LIST_SPACE_2 As rectangle:
+            BorderStyle: =BorderStyle.None
+            Fill: =RGBA(0, 0, 0, 0)
+            Width: =10
+            ZIndex: =4
+
+        I_LIST_BACK_1 As icon.BackArrow:
+            Color: =RGBA(255, 255, 255, 1)
+            FillPortions: =1
+            Icon: =Icon.Print
+            LayoutMinWidth: =100
+            OnSelect: =Navigate(S_PRINT, ScreenTransition.Fade)
+            PaddingLeft: =10
+            PaddingRight: =10
+            ZIndex: =5
+
+        R_LIST_SPACE_9 As rectangle:
+            BorderStyle: =BorderStyle.None
+            Fill: =RGBA(0, 0, 0, 0)
+            Width: =10
+            ZIndex: =6
+
+    C_LIST_MAIN As groupContainer.verticalAutoLayoutContainer:
+        Height: =Parent.Height - C_LIST_TITLE.Height - C_LIST_FOOT.Height
+        LayoutAlignItems: =LayoutAlignItems.Stretch
+        LayoutDirection: =LayoutDirection.Vertical
+        LayoutGap: =10
+        LayoutMode: =LayoutMode.Auto
+        LayoutOverflowX: =LayoutOverflow.Scroll
+        LayoutOverflowY: =LayoutOverflow.Scroll
+        PaddingLeft: =3
+        Width: =Parent.Width
+        Y: =140
+        ZIndex: =2
+
+        "Gallery1 As gallery.'BrowseLayout_Vertical_TwoTextOneImageVariant_ver4.0'":
+            AlignInContainer: =AlignInContainer.SetByContainer
+            Height: =
+            Items: =Filter(Equipment,'Asset type'.Value = D_VIEW_CAT.SelectedText.Value, Status.Value = D_VIEW_STAT.SelectedText.Value)
+            Layout: =Layout.Vertical
+            LayoutMinHeight: =100
+            LayoutMinWidth: =300
+            TemplatePadding: =0
+            TemplateSize: =Min(160, Self.Height - 60)
+            ZIndex: =1
+
+            Image1 As image:
+                Height: =160
+                Image: =ThisItem.Photo
+                OnSelect: |-
+                    =Select(Parent);Navigate(S_VIEW,ScreenTransition.Fade,{SERIALNUMBER:Parent.Selected.'Serial number'})
+                Tooltip: ="View item details"
+                Width: =160
+                X: =15
+                ZIndex: =1
+
+            Title1 As label:
+                Color: =RGBA(255, 255, 255, 1)
+                Font: =Font.'Segoe UI'
+                Height: =160/2
+                OnSelect: |-
+                    =Select(Parent);Navigate(S_VIEW,ScreenTransition.Fade,{SERIALNUMBER:Parent.Selected.'Serial number'})
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                Text: =Concatenate(ThisItem.Manufacturer.Value," ",ThisItem.Model)
+                Tooltip: ="View item details"
+                VerticalAlign: =VerticalAlign.Top
+                Width: |
+                    =Image2.X-Title1.X-Image1.X
+                X: =Image1.X + Image1.Width+15
+                ZIndex: =2
+
+            Subtitle1 As label:
+                Color: =RGBA(255, 255, 255, 1)
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Lighter
+                Height: =79
+                Italic: =true
+                OnSelect: |-
+                    =Select(Parent);Navigate(S_VIEW,ScreenTransition.Fade,{SERIALNUMBER:Parent.Selected.'Serial number'})
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                Text: =ThisItem.'Serial number'
+                Tooltip: ="View item details"
+                VerticalAlign: =VerticalAlign.Top
+                Width: =Title1.Width
+                X: |
+                    =Title1.X
+                Y: =80
+                ZIndex: =3
+
+            NextArrow1 As icon.ChevronRight:
+                AccessibleLabel: =Self.Tooltip
+                Color: =RGBA(255, 255, 255, 1)
+                Height: =60
+                Icon: =Icon.View
+                OnSelect: |-
+                    =Navigate(S_VIEW,ScreenTransition.Fade,{SERIALNUMBER:Parent.Selected.'Serial number'})
+                PaddingBottom: =10
+                PaddingLeft: =10
+                PaddingRight: =25
+                PaddingTop: =10
+                TabIndex: =0
+                Tooltip: ="View item details"
+                Width: =75
+                X: =Parent.TemplateWidth - Self.Width - 5
+                Y: =(Parent.TemplateHeight / 2) - (Self.Height / 2)
+                ZIndex: =4
+
+            Separator1 As rectangle:
+                Fill: =RGBA(229, 36, 33, 1)
+                Height: =1
+                OnSelect: =Select(Parent)
+                Width: =Parent.TemplateWidth
+                Y: =Parent.TemplateHeight - 1
+                ZIndex: =5
+
+            Subtitle1_1 As label:
+                Align: =Align.Right
+                Color: =RGBA(255, 255, 255, 1)
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Bold
+                Height: =34
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =10
+                PaddingRight: =10
+                Text: |
+                    =ThisItem.Title
+                VerticalAlign: =VerticalAlign.Top
+                Width: =Parent.Width
+                ZIndex: =6
+
+            Image2 As image:
+                BorderColor: =RGBA(255, 255, 255, 1)
+                BorderThickness: =3
+                Image: |-
+                    =Concatenate("https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=",Trim(Subtitle1.Text))
+                OnSelect: =Select(Parent)
+                X: =Parent.TemplateWidth - Self.Width - 5 - Image2.Width
+                Y: =30
+                ZIndex: =7
+
+        C_LIST_FILTERS As groupContainer.horizontalAutoLayoutContainer:
+            FillPortions: =0
+            Height: =70
+            LayoutMinHeight: =112
+            LayoutMinWidth: =250
+            LayoutMode: =LayoutMode.Auto
+            LayoutOverflowX: =LayoutOverflow.Scroll
+            LayoutOverflowY: =LayoutOverflow.Scroll
+            ZIndex: =4
+
+            R_LIST_SPACE_3 As rectangle:
+                BorderStyle: =BorderStyle.None
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =70
+                Width: =10
+                ZIndex: =1
+
+            D_VIEW_CAT As dropdown:
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =0
+                ChevronBackground: =RGBA(229, 36, 33, 1)
+                Font: =Font.'Segoe UI'
+                Height: =70
+                Items: =Distinct(Equipment,'Asset type'.Value)
+                LayoutMinHeight: =70
+                LayoutMinWidth: =575
+                Size: =21
+                Width: =Parent.Width /2 -15
+                ZIndex: =2
+
+            R_LIST_SPACE_4 As rectangle:
+                BorderStyle: =BorderStyle.None
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =70
+                Width: =10
+                ZIndex: =3
+
+            D_VIEW_STAT As dropdown:
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =0
+                ChevronBackground: =RGBA(229, 36, 33, 1)
+                Font: =Font.'Segoe UI'
+                Height: =70
+                Items: =Distinct(Equipment,Status.Value)
+                LayoutMinHeight: =70
+                LayoutMinWidth: =575
+                Size: =21
+                Width: =Parent.Width /2 -15
+                ZIndex: =4
+
+            R_LIST_SPACE_5 As rectangle:
+                BorderStyle: =BorderStyle.None
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =70
+                Width: =10
+                ZIndex: =5
+
+    C_LIST_TITLE As groupContainer.verticalAutoLayoutContainer:
+        BorderColor: =RGBA(229, 36, 33, 1)
+        Height: =140
+        LayoutAlignItems: =LayoutAlignItems.Stretch
+        LayoutDirection: =LayoutDirection.Vertical
+        LayoutMode: =LayoutMode.Auto
+        Width: =Parent.Width
+        ZIndex: =3
+
+        P_LIST_TITLE As image:
+            AlignInContainer: =AlignInContainer.Start
+            DisplayMode: =DisplayMode.View
+            Height: =135
+            Image: =LogoWhite640
+            ImagePosition: =ImagePosition.Center
+            LayoutMinHeight: =320
+            LayoutMinWidth: =320
+            OnSelect: =Navigate(S_MENU, ScreenTransition.Fade)
+            Width: =640
+            ZIndex: =2
+
